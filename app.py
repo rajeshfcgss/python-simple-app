@@ -1,25 +1,23 @@
 from flask import Flask,render_template,request
+import pywhatkit as py
+
+
+
 
 app=Flask(__name__)
 
 @app.route('/',methods=['GET','POST'])
 def index():
     if request.method == "POST":  
-        option  = request.form.get('option')
-        num1  = float(request.form.get('num1'))
-        num2  = float(request.form.get('num2'))
-
-        if option == "Addition":
-            data = num1 + num2
-        elif option == "subtraction":
-            data = num1 - num2
-        elif option == "Division":
-            data = num1 / num2
-        elif option == "Multiplication":
-            data = num1 * num2
-        return render_template('result.html', data=data)
+        phone_number  = str(request.form.get('phone_number'))
+        message  = str(request.form.get('phone_number'))
+        time_hour  = int(request.form.get('time_hour'))
+        time_min  = int(request.form.get('time_min'))
+        py.sendwhatmsg(phone_number,message,time_hour, time_min)
+       
+        return render_template('result.html', add=message)
     return render_template('index.html')
 
 
 if __name__ == "__main__":
-    app.run(debug=True,port=8000)
+    app.run()
